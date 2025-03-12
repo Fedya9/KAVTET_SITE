@@ -1,0 +1,26 @@
+{
+  "name": "coming",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000K\u0000A\u0000V\u0000T\u0000E\u0000T\u0000_\u0000S\u0000I\u0000T\u0000E\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fedya9/KAVTET_SITE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fedya9/KAVTET_SITE/issues"
+  },
+  "homepage": "https://github.com/Fedya9/KAVTET_SITE#readme",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "fs": "^0.0.1-security"
+  }
+}
