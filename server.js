@@ -1,28 +1,41 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
+const cors = require('cors');
+
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));  // Serve your static files
+app.use(express.static('public'));
 
-// Endpoint to handle email submission
-app.post('/submit-email', (req, res) => {
-  console.log(req.body); // Log the incoming data
-  const email = req.body.email;
-  if (email) {
-    fs.appendFile(path.join(__dirname, 'emails.txt'), email + '\n', (err) => {
-      if (err) {
+app.post('/submit-email', async (req, res) => {
+    const email = req.body.email?.trim();
+    
+    if (!email) {
+        console.log('No email provided');
+        return res.status(400).json({ 
+            success: false, 
+            message: 'Email is required' 
+        });
+    }
+
+    try {
+        console.log('Received email:', email);
+        await fs.appendFile(path.join(__dirname, 'emails.txt'), email + '\n');
+        console.log('Email saved to emails.txt');
+        res.json({ success: true });
+    } catch (err) {
         console.error('Error saving email:', err);
-        return res.json({ success: false });
-      }
-      res.json({ success: true });
-    });
-  } else {
-    res.json({ success: false });
-  }
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error while saving email' 
+        });
+    }
 });
-const cors = require('cors');
-app.use(cors()); // Enable CORS for all routes
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});

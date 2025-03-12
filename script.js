@@ -1,39 +1,67 @@
-// Show the modal on page load
 window.onload = function() {
-    document.getElementById('email-modal').style.display = 'flex';
-  };
-  
-  document.getElementById('email-form').addEventListener('submit', function(event) {
-    event.preventDefault();  // Prevent the default form submission
-  
-    const email = document.getElementById('email').value;
-    
-    // Basic validation to check if email is empty
-    if (!email) {
-      alert('Please enter an email address.');
-      return;
+    const emailModal = document.getElementById('email-modal');
+    if (emailModal) {
+        emailModal.style.display = 'flex';
+        console.log('Modal opened on page load');
+    } else {
+        console.error('Email modal not found in DOM');
     }
-  
-    // Send email to the server
-    fetch('/submit-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: email }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert('Thank you for subscribing!');
-        document.getElementById('email-modal').style.display = 'none';
-      } else {
-        alert('Something went wrong. Please try again.');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Error submitting your email.');
-    });
-  });
-  
+};
+
+document.getElementById('email-form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('email');
+    const emailModal = document.getElementById('email-modal');
+    const email = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email) {
+        alert('Please enter an email address.');
+        return;
+    }
+    
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
+
+    try {
+        console.log('Submitting email:', email);
+        const response = await fetch('http://localhost:3000/submit-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email }),
+        });
+
+        const data = await response.json();
+        console.log('Server response:', data);
+
+        if (data.success) {
+            alert('Thank you for subscribing!');
+            if (emailModal) {
+                emailModal.style.display = 'none';
+                console.log('Modal closed after successful submission');
+            } else {
+                console.error('Email modal not found when trying to close');
+            }
+            emailInput.value = '';
+        } else {
+            alert(data.message || 'Something went wrong. Please try again.');
+            console.log('Server indicated failure:', data.message);
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+        alert('Error submitting your email. Please try again later.');
+    }
+});
+
+document.getElementById('close-modal').addEventListener('click', function() {
+    const emailModal = document.getElementById('email-modal');
+    if (emailModal) {
+        emailModal.style.display = 'none';
+        console.log('Modal closed via close button');
+    }
+});
