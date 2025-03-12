@@ -1,48 +1,92 @@
 body {
-    margin: 0;
-    padding: 0;
-    background: #000;
-    height: 100vh;
-    display: flex;
-    justify-content: center; /* Centers the main content horizontally */
-    align-items: center; /* Centers vertically */
-    flex-direction: column; /* Stacks logo and text vertically */
-    color: #fff;
-  }
-  
-  .logo-container {
-    background: #fff; /* White background for the logo */
-    padding: 20px; /* Adds some padding around the logo */
-    margin-right: 20%; /* Shifts the logo to the right (adjust this value) */
-    display: flex;
-    justify-content: center; /* Centers the logo within the container */
-    align-items: center;
-  }
-  
+  margin: 0;
+  padding: 0;
+  background: #000;
+  height: 100vh;
+  display: flex;
+  justify-content: center; /* Centers the main content horizontally */
+  align-items: center; /* Centers vertically */
+  flex-direction: column; /* Stacks logo and text vertically */
+  color: #fff;
+  position: relative;
+}
+
+.spinning-text {
+  position: absolute;
+  top: 50%;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Use Impact font */
+  font-size: 3em;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 2px;
+  transform-origin: center;
+  animation: spin 10s linear infinite;
+}
+
+.left {
+  left: 10%;
+  transform: rotateX(0deg); /* Starts from no rotation along X-axis */
+}
+
+.right {
+  right: 10%;
+  transform: rotateX(180deg); /* Start rotated along the X-axis */
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center; /* Centers the logo */
+  align-items: center;
+  margin-bottom: 20px; /* Adds space below the logo */
+}
+
+.logo {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Impact font */
+  font-size: 6em; /* Bigger font size for the logo */
+  font-weight: bold;
+  color: #fff; /* White color */
+  text-transform: uppercase;
+  letter-spacing: 5px; /* Adds spacing between letters */
+}
+
+h1 {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 5em;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  color: #fff;
+}
+
+.coming-soon-description {
+  font-family: Arial, sans-serif;
+  font-size: 1.5em;
+  color: #fff;
+  text-align: center;
+  margin-top: 20px;
+  letter-spacing: 1px;
+  opacity: 0.7; /* Slightly transparent for a minimalist feel */
+}
+
+@media (max-width: 600px) {
   .logo {
-    max-width: 100%; /* Ensures the logo fits within the container */
-    height: auto;
+    font-size: 4em; /* Reduce the logo size on small screens */
   }
-  
   h1 {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 5em;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin: 20px 0 0 0; /* Space above the text, none below */
-    color: #fff; /* Ensure text is white against black background */
+    font-size: 3em;
   }
-  
-  @media (max-width: 600px) {
-    .logo-container {
-      margin-right: 10%; /* Reduce shift on smaller screens */
-      padding: 15px;
-    }
-    .logo {
-      max-width: 80%;
-    }
-    h1 {
-      font-size: 3em;
-    }
+  .coming-soon-description {
+    font-size: 1.2em;
   }
+}
+
+/* Animation for spinning text along X-axis */
+@keyframes spin {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(360deg);
+  }
+}
